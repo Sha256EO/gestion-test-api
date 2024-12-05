@@ -1,0 +1,8 @@
+# Variables de entorno
+.env
+
+# Modulos de node
+node_modules
+
+# Lock-json
+package-log.json
