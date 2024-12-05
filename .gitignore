@@ -5,4 +5,4 @@
 node_modules
 
 # Lock-json
-package-log.json
+package-lock.json
