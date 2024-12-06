@@ -14,7 +14,7 @@ const PORT = process.env.PORT ?? 3000;
 const app = express();
 
 const corsOptions = {
-    origin: process.env.FRONTEND_URL,
+    origin: process.env.FRONTEND_URL.replace(/\/$/, ""),
     credentials: true
 }
 

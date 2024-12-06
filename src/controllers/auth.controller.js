@@ -57,7 +57,8 @@ export const login = async (req, res) => {
         const token = generateToken( { id: user.id, username: user.username } );
         res.cookie('token', token, {
             httpOnly: true,
-            maxAge: 3600000
+            maxAge: 3600000,
+            sameSite: 'none'
         });
         res.json( { message: 'Logeo exitoso' } );
     } catch (error) {

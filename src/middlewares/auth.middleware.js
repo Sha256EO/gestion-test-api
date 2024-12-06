@@ -1,6 +1,7 @@
 import { verifyToken } from "../utils/jwt.js";
 
 export const isAuthenticated = (req, res, next) => {
+    console.log('Cookie:', req.cookies);
     const token = req.cookies.token;
 
     if (!token) {
