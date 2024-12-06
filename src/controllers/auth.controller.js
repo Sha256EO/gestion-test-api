@@ -60,6 +60,8 @@ export const login = async (req, res) => {
             maxAge: 3600000,
             sameSite: 'none'
         });
+        console.log('Cookie:', token);
+        
         res.json( { message: 'Logeo exitoso' } );
     } catch (error) {
         res.status(500).json( { message: 'Error durante el logeo' } );
