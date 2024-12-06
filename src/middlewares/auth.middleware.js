@@ -1,17 +1,16 @@
 import { verifyToken } from "../utils/jwt.js";
 
 export const isAuthenticated = (req, res, next) => {
-    console.log('Cookie:', req.cookies);
-    const token = req.cookies.token;
+    const token = req.headers.authorization?.split(' ')[1]; // Leer el token del encabezado "Authorization"
 
     if (!token) {
-        return res.status(401).json( { message: 'Desautorizado' } );
+        return res.status(401).json({ message: 'Desautorizado' });
     }
 
     try {
         req.user = verifyToken(token);
         next();
     } catch (error) {
-        res.status(401).json( { message: 'token invalido' } );
+        res.status(401).json({ message: 'Token inválido' });
     }
 };

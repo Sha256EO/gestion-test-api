@@ -7,7 +7,7 @@ export const register = async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-        return res.status(400).json( { message: 'El usuario y la contraseña son requeridos' } );
+        return res.status(400).json({ message: 'El usuario y la contraseña son requeridos' });
     }
 
     try {
@@ -17,10 +17,10 @@ export const register = async (req, res) => {
         );
 
         if (existingUser.length > 0) {
-            return res.status(409).json( {mesasge: 'El usuario ya existe' } );
+            return res.status(409).json({ mesasge: 'El usuario ya existe' });
         }
     } catch (error) {
-        res.status(500).json( { message: 'Error durante la consulta' } );
+        res.status(500).json({ message: 'Error durante la consulta' });
     }
 
     try {
@@ -30,9 +30,9 @@ export const register = async (req, res) => {
             [username, hashedPassword]
         )
 
-        res.status(201).json( { message: 'Registro exitoso', userId: result.insertId } );
+        res.status(201).json({ message: 'Registro exitoso', userId: result.insertId });
     } catch (error) {
-        res.status(500).json( { message: 'Ocurrio un error durante el registro' } );
+        res.status(500).json({ message: 'Ocurrio un error durante el registro' });
     }
 };
 
@@ -40,7 +40,7 @@ export const login = async (req, res) => {
     const { username, password } = req.body;
 
     if (!username || !password) {
-        return res.status(400).json( { message: 'El usuario y la contraseña son requeridos' } );
+        return res.status(400).json({ message: 'El usuario y la contraseña son requeridos' });
     }
 
     try {
@@ -51,24 +51,18 @@ export const login = async (req, res) => {
         const user = rows[0];
 
         if (!user || !(await bcrypt.compare(password, user.password))) {
-            return res.status(401).json( { message: 'Credenciales invalidas' } ); 
+            return res.status(401).json({ message: 'Credenciales inválidas' });
         }
 
-        const token = generateToken( { id: user.id, username: user.username } );
-        res.cookie('token', token, {
-            httpOnly: true,
-            maxAge: 3600000,
-            sameSite: 'none'
-        });
-        console.log('Cookie:', token);
-        
-        res.json( { message: 'Logeo exitoso' } );
+        const token = generateToken({ id: user.id, username: user.username });
+        res.json({ message: 'Login exitoso', token }); // Retorna el token al cliente
     } catch (error) {
-        res.status(500).json( { message: 'Error durante el logeo' } );
+        res.status(500).json({ message: 'Error durante el login' });
     }
 };
 
+
 export const logout = (req, res) => {
     res.clearCookie('token');
-    res.json( { message: 'Logout exitoso' } );
+    res.json({ message: 'Logout exitoso' });
 };
